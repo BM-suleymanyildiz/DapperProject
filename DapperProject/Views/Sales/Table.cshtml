@@ -1,0 +1,365 @@
+@{
+    ViewData["Title"] = "Sales Table";
+    var sales = ViewBag.Sales as IEnumerable<DapperProject.Dtos.SalesDto>;
+    var currentPage = ViewBag.CurrentPage as int? ?? 1;
+    var totalPages = ViewBag.TotalPages as int? ?? 1;
+    var pageSize = ViewBag.PageSize as int? ?? 50;
+    var totalCount = ViewBag.TotalCount as int? ?? 0;
+}
+
+<div class="container-fluid mt-4">
+        <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Satış Filtreleme</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                                                 <div class="col-md-3">
+                             <label class="form-label">Müşteri Adı</label>
+                             <input type="text" class="form-control" id="customerFilter" placeholder="Müşteri adı" value="@ViewBag.CustomerFilter">
+                         </div>
+                         <div class="col-md-3">
+                             <label class="form-label">Kategori</label>
+                             <input type="text" class="form-control" id="categoryFilter" placeholder="Kategori adı" value="@ViewBag.CategoryFilter">
+                         </div>
+                         <div class="col-md-3">
+                             <label class="form-label">Marka</label>
+                             <input type="text" class="form-control" id="brandFilter" placeholder="Marka adı" value="@ViewBag.BrandFilter">
+                         </div>
+                         <div class="col-md-3">
+                             <label class="form-label">Bölge</label>
+                             <input type="text" class="form-control" id="regionFilter" placeholder="Bölge adı" value="@ViewBag.RegionFilter">
+                         </div>
+                    </div>
+                                         <div class="row mt-3">
+                         <div class="col-md-3">
+                             <label class="form-label">Tarih</label>
+                             <input type="date" class="form-control" id="filterDate" value="@ViewBag.FilterDate">
+                         </div>
+                         <div class="col-md-3">
+                             <label class="form-label">Minimum Tutar</label>
+                             <input type="number" class="form-control" id="minAmount" placeholder="0" value="@ViewBag.MinAmount">
+                         </div>
+                         <div class="col-md-3">
+                             <label class="form-label">Maksimum Tutar</label>
+                             <input type="number" class="form-control" id="maxAmount" placeholder="100000" value="@ViewBag.MaxAmount">
+                         </div>
+                     </div>
+                    <div class="row mt-3">
+                        <div class="col-12 d-flex justify-content-between align-items-center">
+                            <div>
+                                <button class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="bi bi-search"></i> Filtrele
+                                </button>
+                                <button class="btn btn-secondary ms-2" onclick="clearFilters()">
+                                    <i class="bi bi-x-circle"></i> Temizle
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn btn-success" onclick="exportToExcel()">
+                                    <i class="bi bi-file-earmark-excel"></i> Excel'e Aktar
+                                </button>
+                                <button class="btn btn-danger ms-2" onclick="exportToPdf()">
+                                    <i class="bi bi-file-earmark-pdf"></i> PDF'e Aktar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Satış Listesi</h5>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="text-muted">Toplam: @totalCount.ToString("N0") kayıt</span>
+                            <select class="form-select form-select-sm" style="width: auto;" onchange="changePageSize(this.value)">
+                                @if (pageSize == 25)
+                                {
+                                    <option value="25" selected>25</option>
+                                }
+                                else
+                                {
+                                    <option value="25">25</option>
+                                }
+                                @if (pageSize == 50)
+                                {
+                                    <option value="50" selected>50</option>
+                                }
+                                else
+                                {
+                                    <option value="50">50</option>
+                                }
+                                @if (pageSize == 100)
+                                {
+                                    <option value="100" selected>100</option>
+                                }
+                                else
+                                {
+                                    <option value="100">100</option>
+                                }
+                                @if (pageSize == 200)
+                                {
+                                    <option value="200" selected>200</option>
+                                }
+                                else
+                                {
+                                    <option value="200">200</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="salesTable">
+                                                         <thead class="table-dark">
+                                 <tr>
+                                     <th>Müşteri</th>
+                                     <th>Ürün</th>
+                                     <th>Kategori</th>
+                                     <th>Marka</th>
+                                     <th>Miktar</th>
+                                     <th>Toplam Fiyat</th>
+                                     <th>Bölge</th>
+                                     <th>Tarih</th>
+                                 </tr>
+                             </thead>
+                            <tbody>
+                                @if (sales != null && sales.Any())
+                                {
+                                    @foreach (var sale in sales)
+                                    {
+                                                                                 <tr>
+                                                                                           <td>
+                                                  <div>
+                                                      <strong>@sale.NAMESURNAME</strong><br>
+                                                      <small class="text-muted">@sale.USERNAME_</small>
+                                                  </div>
+                                              </td>
+                                                                                         <td>
+                                                 <div>
+                                                     <strong>@sale.ITEMNAME</strong>
+                                                 </div>
+                                             </td>
+                                                                                         <td>@sale.CATEGORY1</td>
+                                             <td>@sale.BRAND</td>
+                                                                                           <td>@(sale.AMOUNT.HasValue ? ((int)sale.AMOUNT.Value).ToString() : "0")</td>
+                                             <td>
+                                                 <span class="badge bg-success">@(sale.TOTALPRICE?.ToString("F2") ?? "0.00") TL</span>
+                                             </td>
+                                             <td>
+                                                 <div>
+                                                     <strong>@sale.REGION</strong><br>
+                                                     <small class="text-muted">@sale.CITY</small>
+                                                 </div>
+                                             </td>
+                                                                                          <td>@(sale.DATE_?.ToString("dd.MM.yyyy") ?? "-")</td>
+                                        </tr>
+                                    }
+                                }
+                                                                 else
+                                 {
+                                     <tr>
+                                         <td colspan="8" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="bi bi-inbox fs-1"></i>
+                                                <p class="mt-2">Veri bulunamadı</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    @if (totalPages > 1)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="Sayfalama">
+                    <ul class="pagination justify-content-center">
+                        <!-- First Page -->
+                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("Table", new { page = 1, pageSize = pageSize })">
+                                <i class="bi bi-chevron-double-left"></i>
+                            </a>
+                        </li>
+                        
+                        <!-- Previous Page -->
+                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("Table", new { page = currentPage - 1, pageSize = pageSize })">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        <!-- Page Numbers -->
+                        @{
+                            var startPage = Math.Max(1, currentPage - 2);
+                            var endPage = Math.Min(totalPages, currentPage + 2);
+                        }
+
+                        @for (int i = startPage; i <= endPage; i++)
+                        {
+                            <li class="page-item @(i == currentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Table", new { page = i, pageSize = pageSize })">@i</a>
+                            </li>
+                        }
+
+                        <!-- Next Page -->
+                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("Table", new { page = currentPage + 1, pageSize = pageSize })">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+
+                        <!-- Last Page -->
+                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                            <a class="page-link" href="@Url.Action("Table", new { page = totalPages, pageSize = pageSize })">
+                                <i class="bi bi-chevron-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
+
+    <!-- Page Info -->
+    <div class="row mt-2">
+        <div class="col-12 text-center">
+            <small class="text-muted">
+                Sayfa @currentPage / @totalPages 
+                (@(((currentPage - 1) * pageSize) + 1) - @Math.Min(currentPage * pageSize, totalCount) arası @totalCount kayıttan)
+            </small>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Filter functions
+                 function applyFilters() {
+             const customerFilter = document.getElementById('customerFilter').value;
+             const categoryFilter = document.getElementById('categoryFilter').value;
+             const brandFilter = document.getElementById('brandFilter').value;
+             const regionFilter = document.getElementById('regionFilter').value;
+             const filterDate = document.getElementById('filterDate').value;
+             const minAmount = document.getElementById('minAmount').value;
+             const maxAmount = document.getElementById('maxAmount').value;
+
+             // Build query string
+             const params = new URLSearchParams();
+             if (customerFilter) params.append('customer', customerFilter);
+             if (categoryFilter) params.append('category', categoryFilter);
+             if (brandFilter) params.append('brand', brandFilter);
+             if (regionFilter) params.append('region', regionFilter);
+             if (filterDate) params.append('filterDate', filterDate);
+             if (minAmount) params.append('minAmount', minAmount);
+             if (maxAmount) params.append('maxAmount', maxAmount);
+
+             // Redirect with filters
+             window.location.href = '@Url.Action("Table")?' + params.toString();
+         }
+
+         function clearFilters() {
+             document.getElementById('customerFilter').value = '';
+             document.getElementById('categoryFilter').value = '';
+             document.getElementById('brandFilter').value = '';
+             document.getElementById('regionFilter').value = '';
+             document.getElementById('filterDate').value = '';
+             document.getElementById('minAmount').value = '';
+             document.getElementById('maxAmount').value = '';
+         }
+
+        function changePageSize(size) {
+            window.location.href = '@Url.Action("Table")?pageSize=' + size;
+        }
+
+                 // Export functions
+         function exportToExcel() {
+             const customerFilter = document.getElementById('customerFilter').value;
+             const categoryFilter = document.getElementById('categoryFilter').value;
+             const brandFilter = document.getElementById('brandFilter').value;
+             const regionFilter = document.getElementById('regionFilter').value;
+             const filterDate = document.getElementById('filterDate').value;
+             const minAmount = document.getElementById('minAmount').value;
+             const maxAmount = document.getElementById('maxAmount').value;
+
+             // Build query string
+             const params = new URLSearchParams();
+             if (customerFilter) params.append('customer', customerFilter);
+             if (categoryFilter) params.append('category', categoryFilter);
+             if (brandFilter) params.append('brand', brandFilter);
+             if (regionFilter) params.append('region', regionFilter);
+             if (filterDate) params.append('filterDate', filterDate);
+             if (minAmount) params.append('minAmount', minAmount);
+             if (maxAmount) params.append('maxAmount', maxAmount);
+
+             // Redirect to Excel export
+             window.location.href = '@Url.Action("ExportToExcel")?' + params.toString();
+         }
+ 
+         function exportToPdf() {
+             const customerFilter = document.getElementById('customerFilter').value;
+             const categoryFilter = document.getElementById('categoryFilter').value;
+             const brandFilter = document.getElementById('brandFilter').value;
+             const regionFilter = document.getElementById('regionFilter').value;
+             const filterDate = document.getElementById('filterDate').value;
+             const minAmount = document.getElementById('minAmount').value;
+             const maxAmount = document.getElementById('maxAmount').value;
+
+             // Build query string
+             const params = new URLSearchParams();
+             if (customerFilter) params.append('customer', customerFilter);
+             if (categoryFilter) params.append('category', categoryFilter);
+             if (brandFilter) params.append('brand', brandFilter);
+             if (regionFilter) params.append('region', regionFilter);
+             if (filterDate) params.append('filterDate', filterDate);
+             if (minAmount) params.append('minAmount', minAmount);
+             if (maxAmount) params.append('maxAmount', maxAmount);
+
+             // Redirect to PDF export
+             window.location.href = '@Url.Action("ExportToPdf")?' + params.toString();
+         }
+
+        // CRUD functions
+        function viewDetails(id) {
+            window.location.href = '@Url.Action("Details")/' + id;
+        }
+
+        function editSale(id) {
+            window.location.href = '@Url.Action("Edit")/' + id;
+        }
+
+        function deleteSale(id) {
+            if (confirm('Bu satış kaydını silmek istediğinizden emin misiniz?')) {
+                // TODO: Implement delete functionality
+                alert('Silme özelliği yakında eklenecek!');
+            }
+        }
+
+        // Initialize filters on page load
+        $(document).ready(function() {
+            // Load filter options (categories, brands, regions)
+            // This would typically be loaded from the server
+            console.log('Table page loaded');
+        });
+    </script>
+}

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DapperProject</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DapperProject.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Black Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">
+                <span class="text-white fw-bold fs-4">Yıldız</span><span class="text-danger fw-bold fs-4">S</span>
+            </a>
+            <div class="navbar-nav me-auto">
+                <a class="nav-link text-white" href="/Sales">Dashboard</a>
+                <a class="nav-link text-white" href="/Sales/Table">Tablo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

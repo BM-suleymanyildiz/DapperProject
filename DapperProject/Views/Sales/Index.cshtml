@@ -1,0 +1,441 @@
+@{
+    ViewData["Title"] = "Sales Management";
+    var dashboardStats = ViewBag.DashboardStats as dynamic;
+    var topCategories = ViewBag.TopCategories as IEnumerable<dynamic>;
+    var topBrands = ViewBag.TopBrands as IEnumerable<dynamic>;
+    var topRegions = ViewBag.TopRegions as IEnumerable<dynamic>;
+    var recentSales = ViewBag.RecentSales as IEnumerable<dynamic>;
+    var salesByMonth = ViewBag.SalesByMonth as IEnumerable<dynamic>;
+    var topSellingItems = ViewBag.TopSellingItems as IEnumerable<dynamic>;
+    var topRegionsForChart = ViewBag.TopRegionsForChart as IEnumerable<dynamic>;
+}
+
+<!-- Summary Cards -->
+<div class="row mt-4">
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Satış</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalSales?.ToString("N0") ?? "0")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-cart-check fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Sipariş</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalOrders?.ToString("N0") ?? "0")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-box fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Müşteri</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalCustomers?.ToString("N0") ?? "0")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-calendar-check fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Ortalama Sipariş Değeri</h6>
+                        <h3 class="mb-0">@(dashboardStats?.AverageOrderValue?.ToString("N2") ?? "0.00") TL</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-graph-up fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Gelir</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalRevenue?.ToString("N2") ?? "0.00") TL</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-currency-dollar fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Ortalama Ürün Fiyatı</h6>
+                        <h3 class="mb-0">@(dashboardStats?.AverageProductPrice?.ToString("N2") ?? "0.00") TL</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-tag fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white" style="background-color: #6f42c1;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">En Çok Satan Kategori</h6>
+                        <h3 class="mb-0">@(topCategories?.FirstOrDefault()?.Category ?? "N/A")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-tags fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white" style="background-color: #20c997;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">En Çok Satan Marka</h6>
+                        <h3 class="mb-0">@(topBrands?.FirstOrDefault()?.BRAND ?? "N/A")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-clock fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary bg-gradient text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">En Çok Satış Yapılan Bölge</h6>
+                        <h3 class="mb-0">@(topRegions?.FirstOrDefault()?.REGION ?? "N/A")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-arrow-up-circle fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success bg-gradient text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Ortalama Satış Miktarı</h6>
+                        <h3 class="mb-0">@(dashboardStats?.AverageAmount?.ToString("N2") ?? "0.00")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-graph-up-arrow fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning bg-gradient text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Ürün Çeşidi</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalProducts?.ToString("N0") ?? "0")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-box-seam fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info bg-gradient text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Kategori</h6>
+                        <h3 class="mb-0">@(dashboardStats?.TotalCategories?.ToString("N0") ?? "0")</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-tags-fill fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Bölgelere Göre Satış Dağılımı</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="radarChart" width="500" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">En Çok Satan Kategoriler</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="pieChart" width="500" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">En Çok Satan Ürünler</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="barChart" width="500" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">En Çok Satan Markalar</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="doughnutChart" width="500" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            
+            var salesByMonthData = @Html.Raw(Json.Serialize(salesByMonth));
+            var topSellingItemsData = @Html.Raw(Json.Serialize(topSellingItems));
+            var topCategoriesData = @Html.Raw(Json.Serialize(topCategories));
+            var topBrandsData = @Html.Raw(Json.Serialize(topBrands));
+            var topRegionsForChartData = @Html.Raw(Json.Serialize(topRegionsForChart));
+
+      
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            var regionLabels = [];
+            var regionSalesData = [];
+            var regionRevenueData = [];
+
+            if (topRegionsForChartData && topRegionsForChartData.length > 0) {
+                topRegionsForChartData.forEach(function(item) {
+                    regionLabels.push(item.REGION || 'Bilinmeyen Bölge');
+                    regionSalesData.push(item.SalesCount || 0);
+                    regionRevenueData.push(item.TotalRevenue || 0);
+                });
+            } else {
+                regionLabels = ['Veri Yok'];
+                regionSalesData = [0];
+                regionRevenueData = [0];
+            }
+
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: regionLabels,
+                    datasets: [ {
+                        label: 'Toplam Gelir (TL)',
+                        data: regionRevenueData,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgb(255, 99, 132)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(255, 99, 132)'
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Bölgelere Göre Satış Dağılımı'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Değer'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart - En Çok Satan Kategoriler (Gerçek Veriler)
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            var categoryLabels = [];
+            var categoryData = [];
+            var categoryColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+
+            if (topCategoriesData && topCategoriesData.length > 0) {
+                topCategoriesData.forEach(function(item, index) {
+                    categoryLabels.push(item.Category || 'Bilinmeyen');
+                    categoryData.push(item.TotalRevenue || 0);
+                });
+            } else {
+                categoryLabels = ['Veri Yok'];
+                categoryData = [1];
+            }
+
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        data: categoryData,
+                        backgroundColor: categoryColors.slice(0, categoryLabels.length)
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'En Çok Satan Kategoriler'
+                        }
+                    }
+                }
+            });
+
+            // Bar Chart - En Çok Satan Ürünler (Gerçek Veriler)
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            var itemLabels = [];
+            var itemData = [];
+
+            if (topSellingItemsData && topSellingItemsData.length > 0) {
+                topSellingItemsData.forEach(function(item) {
+                    itemLabels.push(item.ITEMNAME || 'Bilinmeyen Ürün');
+                    itemData.push(item.TotalRevenue || 0);
+                });
+            } else {
+                itemLabels = ['Veri Yok'];
+                itemData = [0];
+            }
+
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: itemLabels,
+                    datasets: [{
+                        label: 'Toplam Gelir (TL)',
+                        data: itemData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'En Çok Satan Ürünler'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Gelir (TL)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Doughnut Chart - En Çok Satan Markalar (Gerçek Veriler)
+            const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+            var brandLabels = [];
+            var brandData = [];
+
+            if (topBrandsData && topBrandsData.length > 0) {
+                topBrandsData.forEach(function(item) {
+                    brandLabels.push(item.BRAND || 'Bilinmeyen Marka');
+                    brandData.push(item.TotalRevenue || 0);
+                });
+            } else {
+                brandLabels = ['Veri Yok'];
+                brandData = [1];
+            }
+
+            new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: brandLabels,
+                    datasets: [{
+                        data: brandData,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'En Çok Satan Markalar'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
