@@ -24,9 +24,7 @@
 | Frontend   | Bootstrap 5, jQuery, Chart.js        |
 | Raporlama  | EPPlus (Excel), iTextSharp (PDF)     |
 
-## 📥 Veri Seti
-- Kaynak: https://www.kaggle.com/datasets/omercolakoglu/10million-rows-turkish-market-sales-dataset
-- Not: Veri ön işleme yapılmış ve normalize edilmiş biçimde SQL Server’a yüklenmiştir.
+
 
 ## 💻 Kullanım
 
@@ -64,6 +62,10 @@ Ana sayfada satış istatistiklerini görselleştirilmiş biçimde takip edebili
 - Otomatik tablo formatlama desteği
 - Tüm raporlar filtreye duyarlı şekilde çalışır
 
+
+
+## 📥 Veri Seti
+- Kaynak: https://www.kaggle.com/datasets/omercolakoglu/10million-rows-turkish-market-sales-dataset
 
 
 ## 📷 Ekran Görüntüleri
