@@ -24,7 +24,10 @@
 | Frontend   | Bootstrap 5, jQuery, Chart.js        |
 | Raporlama  | EPPlus (Excel), iTextSharp (PDF)     |
 
-
+## 📥 Veri Seti
+Kaynak: https://www.kaggle.com/datasets/omercolakoglu/10million-rows-turkish-market-sales-dataset
+Kapsam: Ürün, müşteri, sipariş tarihi, bölge, şehir, kategori, fiyat vb.
+Not: Veri ön işleme yapılmış ve normalize edilmiş biçimde SQL Server’a yüklenmiştir.
 
 ## 💻 Kullanım
 
