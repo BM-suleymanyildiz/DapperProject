@@ -1,5 +1,4 @@
 # 📊 DapperProject
----
 
 ## 📌 Genel Bakış
 
@@ -68,10 +67,6 @@ Ana sayfada satış istatistiklerini görselleştirilmiş biçimde takip edebili
 ## 📷 Ekran Görüntüleri
 
 <img width="1920" height="1622" alt="screencapture-localhost-7091-Sales-Index-2025-08-08-00_07_16" src="https://github.com/user-attachments/assets/463f99df-404e-4abe-a18e-eec85b14d483" />
-
-<img width="1898" height="505" alt="Ekran görüntüsü 2025-08-08 000730" src="https://github.com/user-attachments/assets/3197d934-6b0e-4519-ac7e-304e0ed73bae" />
-
-<img width="1888" height="800" alt="Ekran görüntüsü 2025-08-08 000740" src="https://github.com/user-attachments/assets/8b35ab94-2258-425c-8da3-2b7204a2a930" />
 
 <img width="1920" height="3954" alt="screencapture-localhost-7091-Sales-Table-2025-08-08-00_09_25" src="https://github.com/user-attachments/assets/66f6d429-f52d-41d9-b547-0d749fdf396a" />
 
