@@ -4,7 +4,7 @@
 
 **DapperProject**, Kaggle’dan indirilen **10 milyon satırlık satış verisi** üzerinde gelişmiş analizler yapılmasını sağlayan, **ASP.NET Core 9.0 MVC** mimarisi ve **Dapper** kullanılarak geliştirilmiş bir web tabanlı satış analiz ve raporlama uygulamasıdır. Bu proje; güçlü filtreleme seçenekleri, interaktif grafiklerle zenginleştirilmiş dashboard ekranı ve yüksek performanslı veri işleme yetenekleri sayesinde, büyük veri kümeleri üzerinde hızlı, esnek ve kullanıcı dostu bir analiz ortamı sunar. Gelişmiş arayüz tasarımıyla kullanıcılar için etkili bir deneyim hedeflenmiştir.
 
----
+
 
 ## ✨ Özellikler
 
@@ -14,7 +14,7 @@
 - 📤 **Raporlama:** Excel ve PDF formatlarında veri dışa aktarımı
 - 📱 **Responsive Tasarım:** Mobil uyumlu modern arayüz
 
----
+
 
 ## 🧪 Teknolojiler
 
@@ -24,7 +24,7 @@
 | Frontend   | Bootstrap 5, jQuery, Chart.js        |
 | Raporlama  | EPPlus (Excel), iTextSharp (PDF)     |
 
----
+
 
 ## 💻 Kullanım
 
@@ -44,7 +44,7 @@ Ana sayfada satış istatistiklerini görselleştirilmiş biçimde takip edebili
 - 🎯 Gelişmiş filtreleme seçeneklerini kullanın
 - 📤 Excel veya PDF formatında dışa aktarım yapın
 
----
+
 
 ## 🎯 Özellik Detayları
 
@@ -62,7 +62,7 @@ Ana sayfada satış istatistiklerini görselleştirilmiş biçimde takip edebili
 - Otomatik tablo formatlama desteği
 - Tüm raporlar filtreye duyarlı şekilde çalışır
 
----
+
 
 ## 📷 Ekran Görüntüleri
 
